@@ -17,19 +17,21 @@ import { toast } from "react-toastify";
 
 const Register = () => {
   const [name, setName] = useState('');
+  const [showSelectLaboratory, setShowSelectLaboratory] = useState(false);
 
-  //Lista de todos os roles disponíveis
-  const [allRoles, setAllRoles] = useState([]);
-  //Armazenar o value do role selecionado 
-  const [role, setRole] = useState({ value: '', name: '' });
+  const [lab, setLab] = useState({ value: '', name: '' });
+
+
+  const [allLabs, setAllLabs] = useState([]);
+  const [allRoles, setAllRoles] = useState([]); //Lista de todos os roles disponíveis
+  const [role, setRole] = useState({ value: '', name: '' }); //Armazena o value do role selecionado
 
   useEffect(() => {
-    //Busca a lista de roles disponíveis
-    api.get('/role')
+    api.get('/roles')
       .then((response) => {
-        //Array de opções de perfis -> cada índice é um objeto, esse objeto contém dois atributos
-        //name -> mostrada para o usuário
-        //value -> valor bruto para a API e utilizada no select
+        //Cada index desse array é um objeto que contém dois atributos
+        //name -> opção mostrada para o usuário
+        //value -> valor que será enviado para a API e utilizada no componente select
 
         const data = response.data.map((role) => {
           return ({
@@ -40,9 +42,25 @@ const Register = () => {
 
         setAllRoles(data);
 
-        //Primeiro role como opção padrão
         if (data.length > 0)
           setRole(data[0].value);
+      })
+
+    api.get('laboratories')
+      .then((response) => {
+        const data = response.data.map((role) => {
+          return ({
+            value: role.id,
+            name: role.name
+          })
+        });
+
+        setAllLabs(data);
+        if (data.length > 0)
+          setLab(data[0].value);
+      })
+      .catch((error) => {
+        toast.error('O sistema apresentou um erro ao listar os laboratórios')
       })
 
   }, [])
@@ -52,11 +70,12 @@ const Register = () => {
 
     const data = {
       login: name,
-      role_id: parseInt(role), //Conversão de string para inteiro '0' -> 0
+      role_id: parseInt(role), //Converte de String para inteiro '0' -> 0
+      laboratory_id: parseInt(lab)
     };
 
     //Cadastra o usuario
-    api.post('/pre-registration', data)
+    api.post('/pre-registrations', data)
       .then((response) => {
         toast.success('Usuário cadastrado com sucesso!');
       })
@@ -65,6 +84,14 @@ const Register = () => {
         toast.error(message || "Um erro desconhecido ocorreu");
       })
 
+  }
+
+  const handleChangeRole = (e) => {
+    setRole(e.target.value);
+
+    const role = allRoles.filter((r) => r.value === parseInt(e.target.value))[0];
+
+    setShowSelectLaboratory(role.name === "monitor" || role.name === "professor");
   }
 
 
@@ -93,7 +120,7 @@ const Register = () => {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  <Form>
+                  <Form onSubmit={(e) => e.preventDefault()}>
                     <h6 className="heading-small text-muted mb-4">
                       Informações do Usuário
                     </h6>
@@ -131,9 +158,10 @@ const Register = () => {
                               type={"select"}
                               size="1"
                               value={role}
-                              onChange={(e) => setRole(e.target.value) /*Mantém a variável role sempre atualizada e condizente com o digitado*/}
+                              onChange={handleChangeRole /*Mantém a variável role sempre atualizada e condizente com o digitado*/}
                             >
                               {
+                                //Vetor allRoles criado dentro do select
                                 allRoles.map((item) => (
                                   <option key={item.value} value={item.value}>{item.name}</option>
                                 ))
@@ -141,9 +169,35 @@ const Register = () => {
                             </Input>
                           </FormGroup>
                         </Col>
+                        {
+                          showSelectLaboratory ?
+                            <Col lg="12">
+                              <FormGroup>
+                                <label
+                                  className="form-control-label"
+                                  htmlFor="input-email"
+                                >
+                                  Laboratório
+                                </label>
+
+                                <Input
+                                  type={"select"}
+                                  size="1"
+                                  value={lab}
+                                  onChange={(e) => setLab(e.target.value) /*Mantém a variável lab sempre atualizada e condizente com o digitado*/}
+                                >
+                                  {
+                                    allLabs.map((item) => (
+                                      <option key={item.value} value={item.value}>{item.name}</option>
+                                    ))
+                                  }
+                                </Input>
+                              </FormGroup>
+                            </Col> : false
+                        }
 
                         <Col style={{ display: 'flex', justifyContent: 'center' }}>
-                          <Button className="my-4" color="primary" type="button" onClick={submit}> {/* chama a função submit ao clicar no botão */}
+                          <Button className="my-4" color="primary" type="button" onClick={submit}> {/*Chama a função submit ao clicar no botão */}
                             Cadastrar
                           </Button>
                         </Col>

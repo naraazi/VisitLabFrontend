@@ -2,22 +2,6 @@ import api from "api.js";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
-  Badge,
-  Card,
-  CardHeader,
-  CardFooter,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
-  Container,
-  Row,
-  UncontrolledTooltip,
   Button,
 } from "reactstrap";
 import Table from "../../../components/Table/index.js";
@@ -32,7 +16,7 @@ const ListLab = () => {
   const isAdmin = true;
 
   useEffect(() => {
-    api.get('laboratory')
+    api.get('laboratories')
       .then((response) => {
         setLabs(response.data);
       })
@@ -57,7 +41,7 @@ const ListLab = () => {
   ];
 
   const handleDelete = (e) => {
-    api.delete(`/laboratory/${e.id}`)
+    api.delete(`/laboratories/${e.id}`)
       .then((response) => {
         setLabs(labs.filter(lab => lab.id !== e.id));
 

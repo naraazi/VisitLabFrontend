@@ -26,7 +26,7 @@ const EditLab = () => {
 
 
   useEffect(() => {
-    api.get(`/laboratory/${params.id}`)
+    api.get(`/laboratories/${params.id}`)
       .then((response) => {
         setName(response.data.name);
         setLocal(response.data.local);
@@ -41,7 +41,7 @@ const EditLab = () => {
     };
 
     //Cadastra o laboratório
-    api.put(`/laboratory/${params.id}`, data)
+    api.put(`/laboratories/${params.id}`, data)
       .then((response) => {
         toast.success('Laboratório cadastrado com sucesso!');
         navigate('/admin/lab')
@@ -126,7 +126,7 @@ const EditLab = () => {
                             Voltar
                           </Button>
 
-                          <Button className="my-4" color="primary" type="button" onClick={submit}> {/* chama a função submit ao clicar no botão */}
+                          <Button className="my-4" color="primary" type="button" onClick={submit}> {/*Chama a função submit ao clicar no botão */}
                             Editar
                           </Button>
                         </Col>

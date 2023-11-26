@@ -30,7 +30,7 @@ const RegisterLab = () => {
     };
 
     //Cadastra o laboratório
-    api.post('/laboratory', data)
+    api.post('/laboratories', data)
       .then((response) => {
         toast.success('Laboratório cadastrado com sucesso!');
         navigate('/admin/lab')
@@ -111,7 +111,7 @@ const RegisterLab = () => {
                         </Col>
 
                         <Col style={{ display: 'flex', justifyContent: 'center' }}>
-                          <Button className="my-4" color="primary" type="button" onClick={submit}> {/* chama a função submit ao clicar no botão */}
+                          <Button className="my-4" color="primary" type="button" onClick={submit}> {/*Chama a função submit ao clicar no botão */}
                             Cadastrar
                           </Button>
                         </Col>

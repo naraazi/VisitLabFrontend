@@ -26,19 +26,19 @@ const Login = () => {
 
   const submit = () => {
 
-    //Transforma os dados de name e password em um objeto.
+    //Transforma name e password em um objeto
     const data = {
-      login: login,
+      login: login, 
       password: password, 
     };
 
-    //Rota da API responsável pela autenticação
+    //Chamada da rota da API (autenticacao)
     api.post('/login', data)
       .then((response) => {
         //Salva o token para ser utilizado futuramente
         localStorage.setItem('token', response.data);
 
-        //Caso o login tenha sido efetuado com sucesso, é enviado para a tela de admin
+        //Caso o login tenha sido efetuado com sucesso -> enviado para a tela de admin
         navigate('/admin/register');
       })
       .catch((error) => {

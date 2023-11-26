@@ -23,7 +23,6 @@ import {
   chartExample1,
   chartExample2,
 } from "variables/charts.js";
-
 import Header from "components/Headers/Header.js";
 
 const Index = (props) => {

@@ -13,9 +13,9 @@ const ICONS_STYLE = {
 export default function Table({ columns, data, onEdit, onDelete, canEdit, canDelete, arrayLater, ...config }) {
 
   const actionsConfig = {
-    size: 100,
+    size: 30,
     enableColumnActions: false,
-    enableColumnOrdering: false,
+    enableColumnOrdering: true,
     muiTableBodyCellProps: {
       align: 'center',
     }
@@ -24,7 +24,6 @@ export default function Table({ columns, data, onEdit, onDelete, canEdit, canDel
   if (onEdit)
     columns.push({
       ...actionsConfig,
-      size: 25,
       header: null,
       id: 'edit',
       accessorFn: (row) => canEdit && canEdit(row) ?
@@ -35,7 +34,6 @@ export default function Table({ columns, data, onEdit, onDelete, canEdit, canDel
   if (onDelete)
     columns.push({
       ...actionsConfig,
-      size: 25,
       header: null,
       id: 'delete',
       accessorFn: (row) => !!canDelete && canDelete(row) ?
