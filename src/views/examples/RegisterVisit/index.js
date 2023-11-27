@@ -37,10 +37,10 @@ const RegisterVisit = () => {
 
         setAllLabs(data);
         if (data.length > 0)
-          setLab(data[0].value);
+          setLab(null);
       })
       .catch((error) => {
-        toast.error('O sistema apresentou um erro ao listar os laboratórios')
+        toast.error('O sistema apresentou um erro ao listar as visitas.')
       })
   }, []);
 
@@ -85,7 +85,7 @@ const RegisterVisit = () => {
                 <CardHeader className="bg-white border-0">
                   <Row className="align-items-center">
                     <Col xs="8">
-                      <h3 className="mb-0">Cadastrar Laboratório</h3>
+                      <h3 className="mb-0">Cadastrar Visita</h3>
                     </Col>
                   </Row>
                 </CardHeader>
@@ -146,6 +146,7 @@ const RegisterVisit = () => {
                               value={lab}
                               onChange={(e) => setLab(e.target.value) /*Mantém a variável role sempre atualizada e condizente com o digitado*/}
                             >
+                            <option>Selecione</option>
                               {
                                 allLabs.map((item) => (
                                   <option key={item.value} value={item.value}>{item.name}</option>
