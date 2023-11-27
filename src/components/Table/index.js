@@ -54,7 +54,8 @@ export default function Table({ columns, data, onEdit, onDelete, canEdit, canDel
       enableSorting={true}
       localization={MRT_Localization_PT_BR}
       muiTablePaperProps={{
-        elevation: 0,
+        elevation: 0, //change the mui box shadow
+        //customize paper styles
         sx: {
           borderRadius: '0',
           border: '1px solid #e0e0e0',

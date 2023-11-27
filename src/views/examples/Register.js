@@ -13,6 +13,7 @@ import {
   Col,
 } from "reactstrap";
 import { toast } from "react-toastify";
+// core components
 
 
 const Register = () => {
@@ -27,11 +28,12 @@ const Register = () => {
   const [role, setRole] = useState({ value: '', name: '' }); //Armazena o value do role selecionado
 
   useEffect(() => {
+    //Busca a lista de roles disponíveis
     api.get('/roles')
       .then((response) => {
         //Cada index desse array é um objeto que contém dois atributos
         //name -> opção mostrada para o usuário
-        //value -> valor que será enviado para a API e utilizada no componente select
+        //value -> valor bruto que será enviado para a API e utilizada no componente select
 
         const data = response.data.map((role) => {
           return ({
@@ -70,7 +72,7 @@ const Register = () => {
 
     const data = {
       login: name,
-      role_id: parseInt(role), //Converte de String para inteiro '0' -> 0
+      role_id: parseInt(role), //Converte de string para inteiro '0' -> 0
       laboratory_id: parseInt(lab)
     };
 
@@ -161,7 +163,6 @@ const Register = () => {
                               onChange={handleChangeRole /*Mantém a variável role sempre atualizada e condizente com o digitado*/}
                             >
                               {
-                                //Vetor allRoles criado dentro do select
                                 allRoles.map((item) => (
                                   <option key={item.value} value={item.value}>{item.name}</option>
                                 ))
@@ -184,7 +185,7 @@ const Register = () => {
                                   type={"select"}
                                   size="1"
                                   value={lab}
-                                  onChange={(e) => setLab(e.target.value) /*Mantém a variável lab sempre atualizada e condizente com o digitado*/}
+                                  onChange={(e) => setLab(e.target.value) /*Mantém a variável role sempre atualizada e condizente com o digitado*/}
                                 >
                                   {
                                     allLabs.map((item) => (

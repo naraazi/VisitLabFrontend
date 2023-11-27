@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+// core components
 
 
 const RegisterLab = () => {

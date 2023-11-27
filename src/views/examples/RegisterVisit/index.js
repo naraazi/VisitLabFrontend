@@ -13,39 +13,51 @@ import {
   Col,
 } from "reactstrap";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // core components
 
 
-const EditLab = () => {
-  const params = useParams();
-
+const RegisterVisit = () => {
   const navigate = useNavigate();
 
-  const [name, setName] = useState('');
-  const [local, setLocal] = useState('');
+  const [allLabs, setAllLabs] = useState([]);
+  const [lab, setLab] = useState({ value: '', name: '' });
 
+
+  const [visitorName, setVisitorName] = useState('');
+  const [visitorDocument, setVisitorDocument] = useState('');
 
   useEffect(() => {
-    api.get(`/laboratories/${params.id}`)
+    api.get('laboratories')
       .then((response) => {
-        setName(response.data.name);
-        setLocal(response.data.local);
+        const data = response.data.map((role) => ({
+          value: role.id,
+          name: role.name
+        }));
+
+        setAllLabs(data);
+        if (data.length > 0)
+          setLab(data[0].value);
+      })
+      .catch((error) => {
+        toast.error('O sistema apresentou um erro ao listar os laboratórios')
       })
   }, []);
+
 
   const submit = () => {
 
     const data = {
-      name: name,
-      local: local,
+      laboratory_id: lab,
+      visitor_name: visitorName,
+      visitor_document: String(visitorDocument),
     };
 
     //Cadastra o laboratório
-    api.put(`/laboratories/${params.id}`, data)
+    api.post('/visits', data)
       .then((response) => {
         toast.success('Laboratório cadastrado com sucesso!');
-        navigate('/admin/lab')
+        navigate('/admin/visits')
       })
       .catch((error) => {
         const message = error.response.data;
@@ -73,14 +85,14 @@ const EditLab = () => {
                 <CardHeader className="bg-white border-0">
                   <Row className="align-items-center">
                     <Col xs="8">
-                      <h3 className="mb-0">Editar Laboratório</h3>
+                      <h3 className="mb-0">Cadastrar Laboratório</h3>
                     </Col>
                   </Row>
                 </CardHeader>
                 <CardBody>
                   <Form>
                     <h6 className="heading-small text-muted mb-4">
-                      Informações do Laboratório
+                      Informações da Visita
                     </h6>
                     <div className="pl-lg-4">
                       <Row>
@@ -90,14 +102,13 @@ const EditLab = () => {
                               className="form-control-label"
                               htmlFor="input-username"
                             >
-                              Nome de Laboratório
+                              Nome do Visitante
                             </label>
                             <Input
                               className="form-control-alternative"
                               id="input-username"
-                              placeholder="Nome"
-                              value={name}
-                              onChange={(e) => setName(e.target.value) /*Mantém a variável name sempre atualizada e condizente com o digitado*/}
+                              value={visitorName}
+                              onChange={(e) => setVisitorName(e.target.value) /*Mantém a variável visitorName sempre atualizada e condizente com o digitado*/}
                               type="text"
                             />
                           </FormGroup>
@@ -109,26 +120,44 @@ const EditLab = () => {
                               className="form-control-label"
                               htmlFor="input-local"
                             >
-                              Local do Laboratório
+                              Documento do Visitante
                             </label>
                             <Input
                               className="form-control-alternative"
                               id="input-local"
-                              placeholder="Local"
-                              value={local}
-                              onChange={(e) => setLocal(e.target.value) /*Mantém a variável local sempre atualizada e condizente com o digitado*/}
+                              value={visitorDocument}
+                              onChange={(e) => setVisitorDocument(e.target.value) /*Mantém a variável visitorDocument sempre atualizada e condizente com o digitado*/}
                               type="text"
                             />
                           </FormGroup>
                         </Col>
 
-                        <Col style={{ display: 'flex', justifyContent: 'center' }}>
-                          <Button className="my-4" color="secondary" type="button" onClick={() => navigate(-1)}>
-                            Voltar
-                          </Button>
+                        <Col lg="12">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                            >
+                              Laboratório
+                            </label>
 
+                            <Input
+                              type={"select"}
+                              size="1"
+                              value={lab}
+                              onChange={(e) => setLab(e.target.value) /*Mantém a variável role sempre atualizada e condizente com o digitado*/}
+                            >
+                              {
+                                allLabs.map((item) => (
+                                  <option key={item.value} value={item.value}>{item.name}</option>
+                                ))
+                              }
+                            </Input>
+                          </FormGroup>
+                        </Col>
+
+                        <Col style={{ display: 'flex', justifyContent: 'center' }}>
                           <Button className="my-4" color="primary" type="button" onClick={submit}> {/*Chama a função submit ao clicar no botão */}
-                            Editar
+                            Cadastrar
                           </Button>
                         </Col>
                       </Row>
@@ -144,4 +173,4 @@ const EditLab = () => {
   );
 };
 
-export default EditLab;
+export default RegisterVisit;

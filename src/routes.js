@@ -1,3 +1,20 @@
+/*!
+
+=========================================================
+* Argon Dashboard React - v1.2.3
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
 import Index from "views/Index.js";
 import Register from "views/examples/Register.js";
 import Login from "views/examples/Login.js";
@@ -7,6 +24,9 @@ import RegisterLab from "views/examples/RegisterLab";
 import ListLab from "views/examples/ListLab";
 import EditLab from "views/examples/EditLab";
 import ListPreRegistration from "views/examples/ListPreRegistration";
+import RegisterVisit from "views/examples/RegisterVisit";
+import ListVisit from "views/examples/ListVisit";
+import EditVisit from "views/examples/EditVisit";
 
 var routes = [
   {
@@ -60,13 +80,6 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/logout",
-    name: "Sair",
-    icon: "ni ni-key-25 text-info",
-    component: <Login />,
-    layout: "/auth",
-  },
-  {
     path: "/register-lab",
     name: "Registrar Laboratório",
     icon: "ni ni-key-25 text-info",
@@ -79,6 +92,36 @@ var routes = [
     name: "Editar Laboratório",
     icon: "ni ni-key-25 text-info",
     component: <EditLab />,
+    layout: "/admin",
+    hide: true
+  },
+  {
+    path: "/visits",
+    name: "Visitas",
+    icon: "ni ni-key-25 text-info",
+    component: <ListVisit />,
+    layout: "/admin"
+  },
+  {
+    path: "/register-visit",
+    name: "Registrar Visitas",
+    icon: "ni ni-key-25 text-info",
+    component: <RegisterVisit />,
+    layout: "/admin",
+    hide: true
+  },
+  {
+    path: "/logout",
+    name: "Sair",
+    icon: "ni ni-key-25 text-info",
+    component: <Login />,
+    layout: "/auth",
+  },
+  {
+    path: "/edit-visit/:id",
+    name: "Editar Visita",
+    icon: "ni ni-key-25 text-info",
+    component: <EditVisit />,
     layout: "/admin",
     hide: true
   },

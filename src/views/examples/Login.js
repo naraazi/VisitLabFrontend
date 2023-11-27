@@ -26,10 +26,10 @@ const Login = () => {
 
   const submit = () => {
 
-    //Transforma name e password em um objeto
+    //Transforma os dados de name e password em um objeto.
     const data = {
       login: login, 
-      password: password, 
+      password: password,
     };
 
     //Chamada da rota da API (autenticacao)
@@ -38,8 +38,7 @@ const Login = () => {
         //Salva o token para ser utilizado futuramente
         localStorage.setItem('token', response.data);
 
-        //Caso o login tenha sido efetuado com sucesso -> enviado para a tela de admin
-        navigate('/admin/register');
+        navigate('/admin/index');
       })
       .catch((error) => {
         const message = error.response.data;

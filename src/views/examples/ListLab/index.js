@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import {
   Button,
 } from "reactstrap";
+// core components
 import Table from "../../../components/Table/index.js";
 import { IoAddOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
